@@ -1,4 +1,5 @@
 from openai import OpenAI
+from openai import OpenAI
 client = OpenAI()
 
 completion = client.chat.completions.create(
@@ -9,4 +10,13 @@ completion = client.chat.completions.create(
   ]
 )
 
-print(completion.choices[0].message)
+text= completion.choices[0].message.content
+
+
+response = client.audio.speech.create(
+    model="tts-1",
+    voice="shimmer",
+    input= text,
+)
+
+response.stream_to_file("output.mp3")
